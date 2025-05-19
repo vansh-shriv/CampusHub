@@ -25,3 +25,15 @@ exports.createEvent = async (req, res) => {
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };
+
+// @desc    Get all events created by the club
+// @route   GET /api/club/events
+// @access  Protected (club only)
+exports.getClubEvents = async (req, res) => {
+  try {
+    const events = await Event.find({ createdBy: req.user._id });
+    res.status(200).json({ events });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error: error.message });
+  }
+};
